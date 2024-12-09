@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import MySpinWheel from "./components/MySpinWheel";
+import MySpinWheel from "./components/MySpinWheel.tsx";
 
 export default function App() {
   return (
