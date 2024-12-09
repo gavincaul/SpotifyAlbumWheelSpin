@@ -1,7 +1,10 @@
 import React from "react";
+import getAlbums from "../api/spotify";
 import { SpinWheel, ISpinWheelProps } from "spin-wheel-game";
 
 const MySpinWheel: React.FC = () => {
+  const reply = getAlbums()
+  console.log(reply)
   const segments = [
     { segmentText: "Option 1", segColor: "red" },
     { segmentText: "Option 2", segColor: "blue" },
