@@ -11,8 +11,8 @@ export default async function getAlbums(req, res) {
 
     const clientID = process.env.CLIENT_ID;
     const clientSecret = process.env.CLIENT_SECRET;
-
-    try {
+    //repush
+    try { 
         const client = await Client.create({
             token: { clientID, clientSecret },
             redirectURL: process.env.REDIRECT_URI,
