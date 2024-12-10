@@ -14,10 +14,11 @@
     "react-scripts": "5.0.1",
     "spin-wheel": "^5.0.2",
     "spin-wheel-game": "^1.0.3-alpha.3",
+    "spotify-api.js": "^9.2.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=8888 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -42,7 +43,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
+  "Dependencies": {
     "gh-pages": "^6.2.0"
   },
   "homepage": "https://gavincaul.github.io/SpotifyAlbumWheelSpin"

@@ -1,10 +1,32 @@
-import React from "react";
-import getAlbums from "../api/spotify";
+import React, { useEffect, /*useState*/ } from "react";
 import { SpinWheel, ISpinWheelProps } from "spin-wheel-game";
 
-const MySpinWheel: React.FC = () => {
-  const reply = getAlbums()
-  console.log(reply)
+
+const MySpinWheel = (code) => {
+    //const [albums, setAlbums] = useState([]);
+
+    useEffect(() => {
+      const fetchAlbums = async () => {
+        try {
+          const response = await fetch(`/api/spotify/?code=${code.code}`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          //setAlbums(response);
+          console.log(response); 
+        } catch (error) {
+          console.error(`Error: ${error.message}`);
+        }
+      };
+  
+      if (code) {
+        fetchAlbums();
+      }
+    }, [code]); 
+  
+  
+
+
   const segments = [
     { segmentText: "Option 1", segColor: "red" },
     { segmentText: "Option 2", segColor: "blue" },
