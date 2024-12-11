@@ -1,7 +1,7 @@
 import React from "react";
 const AuthButton = () => {
   const clientID = "e161a092c62e4325bac9a70b5bfcbdb3";
-  const redirectUri = "http://localhost:8888/callback"; 
+  const redirectUri = "https://gavincaul.github.io/SpotifyAlbumWheelSpin/"; 
   const scope = "user-library-read"; 
 
   const handleLoginClick = () => {
