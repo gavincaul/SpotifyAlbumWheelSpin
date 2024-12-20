@@ -53,6 +53,7 @@ export default async function getAlbums(req, res) {
         */
         const savedAlbums = await client.user.getSavedAlbums();
         const albums = savedAlbums.map(savedAlbum => savedAlbum.item); 
+        console.log(albums)
         return res.status(201).json(albums);
 
     } catch (error) {
