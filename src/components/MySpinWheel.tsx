@@ -1,5 +1,6 @@
 import React, { useEffect, /*useState*/ } from "react";
 import { SpinWheel, ISpinWheelProps } from "spin-wheel-game";
+import fetch from 'node-fetch';
 
 
 const MySpinWheel = (code) => {
@@ -8,7 +9,7 @@ const MySpinWheel = (code) => {
     useEffect(() => {
       const fetchAlbums = async () => {
         try {
-          const response = await fetch(`https://spotify-album-wheel-spin.vercel.app/api/spotify.js?code=${code.code}`);
+          const response = await fetch(`https://spotify-album-wheel-spin.vercel.app/api/spotify.js?code=${code.code}`, []);
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
