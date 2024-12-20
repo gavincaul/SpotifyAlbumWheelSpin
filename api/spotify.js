@@ -11,6 +11,7 @@ export default async function getAlbums(req, res) {
 
     const clientID = process.env.CLIENT_ID;
     const clientSecret = process.env.CLIENT_SECRET;
+    const redirect_uri = process.env.REDIRECT_URI;
 
     try {
         // Step 1: Exchange the code for an access token
@@ -23,20 +24,24 @@ export default async function getAlbums(req, res) {
             body: new URLSearchParams({
                 grant_type: "authorization_code",
                 code,
-                redirect_uri: process.env.REDIRECT_URI,
+                redirect_uri: redirect_uri,
             }),
         });
-
+        const client = await Client.create({
+            token: {
+                clientID: clientID, // Your spotify application client id.
+                clientSecret: clientSecret, // Your spotify application client secret.
+                code: code, // The code search query from the web redirect. Do not use this field if your aim is to refresh the token.
+                redirectURL: redirect_uri  // The redirect url which you have used when redirected to the login page.
+            }
+        });
         if (!tokenResponse.ok) {
             const errorData = await tokenResponse.json();
             return res.status(500).json({ error: errorData });
         }
         
         const { access_token } = await tokenResponse.json();
-        const client = await Client.create({
-            token: access_token,
-        });
-        console.log("redirect URI:", process.env.REDIRECT_URI)
+        console.log("redirect URI:", redirect_uri)
         console.log("Access token:", access_token); // Ensure this is valid
         console.log("Client:", client); // Check if client is properly initialized
         console.log("Client.user:", client.user); // Check if user object exists
