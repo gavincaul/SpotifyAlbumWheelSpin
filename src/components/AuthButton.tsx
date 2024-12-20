@@ -7,6 +7,7 @@ const AuthButton = () => {
   const handleLoginClick = () => {
     // Spotify's authorization URL
     console.log(redirect_uri)
+    console.log(clientID)
     const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientID}&redirect_uri=${encodeURIComponent(redirect_uri)}&scope=${encodeURIComponent(scope)}`;
     // Redirect to Spotify's authorization page
     window.location.href = authUrl;
