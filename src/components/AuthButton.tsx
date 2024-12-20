@@ -1,12 +1,12 @@
 import React from "react";
 const AuthButton = () => {
-  const clientID = "e161a092c62e4325bac9a70b5bfcbdb3";
-  const redirectUri = "https://gavincaul.github.io/SpotifyAlbumWheelSpin/"; 
+  const clientID = process.env.CLIENT_ID;
+  const redirect_uri = process.env.REDIRECT_URI || "https://gavincaul.github.io/SpotifyAlbumWheelSpin/";
   const scope = "user-library-read"; 
-
+  
   const handleLoginClick = () => {
     // Spotify's authorization URL
-    const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
+    const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientID}&redirect_uri=${encodeURIComponent(redirect_uri)}&scope=${encodeURIComponent(scope)}`;
     // Redirect to Spotify's authorization page
     window.location.href = authUrl;
   };
