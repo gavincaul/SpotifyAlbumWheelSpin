@@ -14,7 +14,7 @@ const MySpinWheel = ({ code }) => {
         console.log('Fetching albums with code:', code);
 
         // Fetch the data
-        const response = await fetch(`https://spotify-album-wheel-spin.vercel.app/api/spotify.js?code=${code.code}`, []);
+        const response = await fetch(`https://spotify-album-wheel-spin.vercel.app/api/spotify.js?code=${code}`, []);
 
         // Check if the response is ok
         if (!response.ok) {
