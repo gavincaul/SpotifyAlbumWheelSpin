@@ -40,7 +40,7 @@ export default async function getAlbums(req, res) {
         console.log("Access token:", access_token); // Ensure this is valid
         console.log("Client:", client); // Check if client is properly initialized
         console.log("Client.user:", client.user); // Check if user object exists
-
+        return res.status(200)
         const savedAlbums = await client.user.getSavedAlbums();
         return res.status(200).json(savedAlbums);
 
