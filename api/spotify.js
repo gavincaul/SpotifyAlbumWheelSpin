@@ -2,7 +2,6 @@ const spotify = require("spotify-api.js");
 const { Client } = spotify;
 
 export default async function getAlbums(req, res) {
-    
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
     res.setHeader('Access-Control-Allow-Origin', 'https://gavincaul.github.io');  // Allow requests from this origin
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); // Allow specific methods
