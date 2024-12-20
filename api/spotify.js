@@ -31,11 +31,15 @@ export default async function getAlbums(req, res) {
             const errorData = await tokenResponse.json();
             return res.status(500).json({ error: errorData });
         }
-
+        
         const { access_token } = await tokenResponse.json();
         const client = await Client.create({
             token: access_token,
         });
+        console.log("redirect URI:", process.env.REDIRECT_URI)
+        console.log("Access token:", access_token); // Ensure this is valid
+        console.log("Client:", client); // Check if client is properly initialized
+        console.log("Client.user:", client.user); // Check if user object exists
 
         const savedAlbums = await client.user.getSavedAlbums();
         return res.status(200).json(savedAlbums);
