@@ -8,7 +8,7 @@ const MySpinWheel = (code) => {
     useEffect(() => {
       const fetchAlbums = async () => {
         try {
-          const response = await fetch(`/SpotifyAlbumWheelSpin/api/spotify/?code=${code.code}`);
+          const response = await fetch(`https://spotify-album-wheel-spin.vercel.app/api/spotify.js?code=${code.code}`);
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
