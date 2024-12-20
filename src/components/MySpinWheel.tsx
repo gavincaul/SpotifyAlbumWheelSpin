@@ -1,11 +1,10 @@
-import React, { useEffect, /*useState*/ } from "react";
+import React, { useEffect, useState } from "react";
 import { SpinWheel, ISpinWheelProps } from "spin-wheel-game";
 import fetch from 'node-fetch';
 
 
 const MySpinWheel = (code) => {
-    //const [albums, setAlbums] = useState([]);
-
+    const [albums, setAlbums] = useState([]);
     useEffect(() => {
       const fetchAlbums = async () => {
         try {
@@ -13,8 +12,8 @@ const MySpinWheel = (code) => {
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
-          //setAlbums(response);
-          console.log(response); 
+          const result = await response.json();
+          setAlbums(result);
         } catch (error) {
           console.error(`Error: ${error.message}`);
         }
@@ -26,7 +25,7 @@ const MySpinWheel = (code) => {
     }, [code]); 
   
   
-
+  console.log(albums)
 
   const segments = [
     { segmentText: "Option 1", segColor: "red" },
