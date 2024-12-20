@@ -1,5 +1,6 @@
 import React, { useEffect, /*useState*/ } from "react";
 import { SpinWheel, ISpinWheelProps } from "spin-wheel-game";
+import fetch from 'node-fetch';
 
 
 const MySpinWheel = (code) => {
