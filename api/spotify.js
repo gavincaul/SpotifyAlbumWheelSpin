@@ -3,6 +3,10 @@ const { Client } = spotify;
 const fetch = require("node-fetch"); 
 
 export default async function getAlbums(req, res) {
+    res.setHeader('Access-Control-Allow-Origin', 'https://gavincaul.github.io');  // Allow requests from this origin
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); // Allow specific methods
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allow headers
+
     const { code } = req.query;
 
     if (!code) {
