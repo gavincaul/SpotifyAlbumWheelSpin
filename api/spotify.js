@@ -1,6 +1,5 @@
 const spotify = require("spotify-api.js");
 const { Client } = spotify;
-const fetch = require("node-fetch"); 
 
 export default async function getAlbums(req, res) {
     res.setHeader('Access-Control-Allow-Origin', 'https://gavincaul.github.io');  // Allow requests from this origin
@@ -54,7 +53,7 @@ export default async function getAlbums(req, res) {
         */
         const savedAlbums = await client.user.getSavedAlbums();
         const albums = savedAlbums.map(savedAlbum => savedAlbum.item); 
-        return res.status(200).json(albums);
+        return res.status(201).json(albums);
 
     } catch (error) {
         console.error(error);
