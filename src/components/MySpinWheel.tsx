@@ -4,30 +4,24 @@ import fetch from 'node-fetch';
 
 
 const MySpinWheel = (code) => {
-    //const [albums, setAlbums] = useState([]);
+    const [albums, setAlbums] = useState([]);
+    console.log(albums)
     useEffect(() => {
       const fetchAlbums = async () => {
         try {
-          const response = await fetch(`https://spotify-album-wheel-spin.vercel.app/api/spotify.js?code=${code.code}`, []).then(function(response) {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          }).then(function(data) {
-           
-            console.log(data);  
-          });
+          const response = await fetch(`https://spotify-album-wheel-spin.vercel.app/api/spotify.js?code=${code.code}`, []);
+          let result = await new Response(response).json();
+          setAlbums(result)
+          console.log("RESPONSE", result)
         } catch (error) {
           console.error(`Error: ${error.message}`);
         }
       };
   
       if (code) {
-        //setAlbums(fetchAlbums());
         fetchAlbums()
-       // console.log(albums)
       }
-    }, [code, /*albums*/]); 
+    }, [code]); 
   
   
 
