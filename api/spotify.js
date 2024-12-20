@@ -19,7 +19,20 @@ export default async function getAlbums(req, res) {
 
     try {
         // Step 1: Exchange the code for an access token
-        const tokenResponse = await fetch("https://accounts.spotify.com/api/token", {
+        const client = await Client.create({
+            token: {
+                clientID: clientID, // Your spotify application client id.
+                clientSecret: clientSecret, // Your spotify application client secret.
+                code: code, // The code search query from the web redirect. Do not use this field if your aim is to refresh the token.
+                redirectURL: redirect_uri  // The redirect url which you have used when redirected to the login page.
+            }
+        });
+        console.log("redirect URI:", redirect_uri)
+        
+        console.log("Client:", client); // Check if client is properly initialized
+        console.log("Client.user:", client.user); // Check if user object exists
+        /*const tokenResponse = await fetch("https://accounts.spotify.com/api/token", {
+        
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -31,25 +44,14 @@ export default async function getAlbums(req, res) {
                 redirect_uri: redirect_uri,
             }),
         });
-        const client = await Client.create({
-            token: {
-                clientID: clientID, // Your spotify application client id.
-                clientSecret: clientSecret, // Your spotify application client secret.
-                code: code, // The code search query from the web redirect. Do not use this field if your aim is to refresh the token.
-                redirectURL: redirect_uri  // The redirect url which you have used when redirected to the login page.
-            }
-        });
+        
         if (!tokenResponse.ok) {
             const errorData = await tokenResponse.json();
             return res.status(500).json({ error: errorData });
         }
-        
-        const { access_token } = await tokenResponse.json();
-        console.log("redirect URI:", redirect_uri)
         console.log("Access token:", access_token); // Ensure this is valid
-        console.log("Client:", client); // Check if client is properly initialized
-        console.log("Client.user:", client.user); // Check if user object exists
-        return res.status(200)
+        const { access_token } = await tokenResponse.json();
+        */
         const savedAlbums = await client.user.getSavedAlbums();
         return res.status(200).json(savedAlbums);
 
