@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SpinWheel, ISpinWheelProps, ISegments} from "spin-wheel-game";
 import fetch from 'node-fetch';
-import ColorThief from "colorthief";
 
 
 const MySpinWheel = ({ code }) => {
@@ -10,32 +9,6 @@ const MySpinWheel = ({ code }) => {
   const [error, setError] = useState(null);
 
   
-  // Usage example
-
-
-  const rgbToHex = ([r, g, b]: number[]): string =>
-    `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
-
-  const getDominantColor = async (imageUrl) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = "Anonymous"; // Ensure CORS compliance
-      img.src = imageUrl;
-
-      img.onload = () => {
-        try {
-          const rgb = ColorThief.getColor(img);
-          console.log("Color", rgb)
-          resolve(rgb);
-        } catch (error) {
-          reject(error);
-        }
-      };
-
-      img.onerror = reject;
-    });
-  };
-
 
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -67,11 +40,9 @@ const MySpinWheel = ({ code }) => {
         console.log('Parsed albums:', result);
         const segments = await Promise.all(result.map(async (album) => {
           albumCovers[album.name] = [album.images[0].url, album.externalURL.spotify]
-          const dominantColor = await getDominantColor(album.images[0].url);  
-
           return {
             segmentText: `${album.name}\n${album.artists[0].name}`,
-            segColor: dominantColor || "#000000"  // Use black if no color is found
+            segColor: Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0")
           };
         }));
         setSegment(segments);
