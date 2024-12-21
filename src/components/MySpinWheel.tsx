@@ -41,7 +41,7 @@ const MySpinWheel = ({ code }) => {
           albumCovers[album.name] = [album.images[0].url, album.externalURL.spotify]
           return {
             segmentText: `${album.name}\n${album.artists[0].name}`,
-            segColor: Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0")
+            segColor: "#" + Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0")
           };
         }));
         console.log(segments)
