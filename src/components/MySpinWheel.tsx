@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { SpinWheel, ISpinWheelProps, ISegments} from "spin-wheel-game";
 import fetch from 'node-fetch';
-import ImageOverlay from "./ImageOverlay";
+import ImageOverlay from "./ImageOverlay.tsx";
 
 
 const MySpinWheel = ({ code }) => {
