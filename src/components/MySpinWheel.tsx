@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { SpinWheel, ISpinWheelProps, ISegments} from "spin-wheel-game";
 import fetch from 'node-fetch';
+import ImageOverlay from "./ImageOverlay";
 
 
 const MySpinWheel = ({ code }) => {
   const [segment, setSegment] = useState<ISegments[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [overlaySrc, setOverlaySrc] = useState<string | null>(null);
 
   
 
@@ -61,54 +63,16 @@ const MySpinWheel = ({ code }) => {
     }
   }, [code]);
   
-  const ImageOverlay = (src) => {
-    const [visible, setVisible] = useState(true);
-  
-    const handleClick = () => {
-      setVisible(false);
-    };
-  
-    if (!visible) return null;
-  
-    return (
-      <div
-        onClick={handleClick}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-          zIndex: 1000,
-        }}
-      >
-        <img
-          src={src}
-          alt="Preview"
-          style={{
-            maxWidth: "90%",
-            maxHeight: "90%",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.5)",
-            cursor: "pointer",
-          }}
-        />
-      </div>
-    );
-  };
-
-  
-
-  let segments = segment;
-
-
   const handleSpinFinish = (result: string) => {
     console.log(`Spun to: ${result}`);
-    ImageOverlay(result)
+    setOverlaySrc(result); // Set the image source for the overlay
   };
+
+  const closeOverlay = () => {
+    setOverlaySrc(null); // Clear the overlay source
+  };
+
+  let segments = segment;
 
   const spinWheelProps: ISpinWheelProps = {
     segments,
@@ -132,7 +96,12 @@ const MySpinWheel = ({ code }) => {
   if (error) {
     return <p>Error: {error}</p>;
   }
-  return <SpinWheel {...spinWheelProps} />;
+  return (
+    <>
+      <SpinWheel {...spinWheelProps} />
+      {overlaySrc && <ImageOverlay src={overlaySrc} onClose={closeOverlay} />}
+    </>
+  );  
 };
 
 export default MySpinWheel;
