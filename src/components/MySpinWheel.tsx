@@ -9,6 +9,7 @@ const MySpinWheel = ({ code }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [overlaySrc, setOverlaySrc] = useState<string | null>(null);
+  const [albumCovers, SetAlbumCovers] = useState<{}>({});
 
   
 
@@ -42,11 +43,12 @@ const MySpinWheel = ({ code }) => {
         const segments = await Promise.all(result.map(async (album) => {
           albumCovers[album.name] = [album.images[0].url, album.externalURL.spotify]
           return {
-            segmentText: `${album.name}\n${album.artists[0].name}`,
+            segmentText: `${album.name} - ${album.artists[0].name}`,
             segColor: "#" + Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0")
           };
         }));
-        console.log(segments)
+        console.log(segments);
+        SetAlbumCovers(albumCovers);
         setSegment(segments);
         setLoading(false); 
 
@@ -58,18 +60,18 @@ const MySpinWheel = ({ code }) => {
     };
 
     if (code) {
-      setLoading(true); // Start loading when code is present
+      setLoading(true); 
       fetchAlbums();
     }
   }, [code]);
   
   const handleSpinFinish = (result: string) => {
     console.log(`Spun to: ${result}`);
-    setOverlaySrc(result); // Set the image source for the overlay
+    setOverlaySrc(albumCovers[result.split('-')[0].trim()]); 
   };
 
   const closeOverlay = () => {
-    setOverlaySrc(null); // Clear the overlay source
+    setOverlaySrc(null); 
   };
 
   let segments = segment;

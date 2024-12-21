@@ -1,9 +1,13 @@
 import React from "react";
 
 const ImageOverlay = ({ src, onClose }) => {
-    const handleClick = () => {
-      onClose(); // Trigger the close action from the parent
-    };
+    const handleClick = (e) => {
+        if (e.target.tagName === "IMG") {
+          window.location.href = src[1]; 
+        } else {
+          onClose(); 
+        }
+      };
   
     return (
       <div
@@ -22,7 +26,7 @@ const ImageOverlay = ({ src, onClose }) => {
         }}
       >
         <img
-          src={src}
+          src={src[0]}
           alt="Preview"
           style={{
             maxWidth: "90%",
