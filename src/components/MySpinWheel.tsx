@@ -13,7 +13,6 @@ const MySpinWheel = ({ code }) => {
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
-        console.log('Fetching albums with code:', code);
 
         const response = await fetch(`https://spotify-album-wheel-spin.vercel.app/api/spotify.js?code=${code}`, []);
         if (!response.ok) {
@@ -45,6 +44,7 @@ const MySpinWheel = ({ code }) => {
             segColor: Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0")
           };
         }));
+        console.log(segments)
         setSegment(segments);
         setLoading(false); 
 
