@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "colorthief": "^2.6.0",
     "d3": "^7.9.0",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.2.0",

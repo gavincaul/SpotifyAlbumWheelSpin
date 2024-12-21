@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { SpinWheel, ISpinWheelProps, ISegments} from "spin-wheel-game";
 import fetch from 'node-fetch';
+import ColorThief from "colorthief";
 
 
 const MySpinWheel = ({ code }) => {
@@ -8,24 +9,32 @@ const MySpinWheel = ({ code }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  async function getDominantColor(imageUrl) {
-    try {
-      const response = await fetch(`https://www.colorthief.io/api/color?url=${encodeURIComponent(imageUrl)}`, []);
-      const data = await response.json();
-      return data.color;
-    } catch (error) {
-      console.error('Error fetching dominant color:', error);
-      return null;
-    }
-  }
   
   // Usage example
-  const imageUrl = 'https://example.com/path/to/your/image.jpg';
-  getDominantColor(imageUrl).then(color => {
-    return color
-  });
 
 
+  const rgbToHex = ([r, g, b]: number[]): string =>
+    `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+
+  const getDominantColor = async (imageUrl) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "Anonymous"; // Ensure CORS compliance
+      img.src = imageUrl;
+
+      img.onload = () => {
+        try {
+          const rgb = ColorThief.getColor(img);
+          console.log("Color", rgb)
+          resolve(rgb);
+        } catch (error) {
+          reject(error);
+        }
+      };
+
+      img.onerror = reject;
+    });
+  };
 
 
   useEffect(() => {
@@ -51,13 +60,15 @@ const MySpinWheel = ({ code }) => {
           text += decoder.decode(value, { stream: true });
         }
 
-        console.log('Fetched response text:', text);
+       
 
-   
+        let albumCovers = {}
         const result = JSON.parse(text);
         console.log('Parsed albums:', result);
         const segments = await Promise.all(result.map(async (album) => {
-          const dominantColor = await getDominantColor(album.images[0].url);  // Wait for color
+          albumCovers[album.name] = [album.images[0].url, album.externalURL.spotify]
+          const dominantColor = await getDominantColor(album.images[0].url);  
+
           return {
             segmentText: `${album.name}\n${album.artists[0].name}`,
             segColor: dominantColor || "#000000"  // Use black if no color is found
@@ -79,7 +90,44 @@ const MySpinWheel = ({ code }) => {
     }
   }, [code]);
   
-
+  const ImageOverlay = (src) => {
+    const [visible, setVisible] = useState(true);
+  
+    const handleClick = () => {
+      setVisible(false);
+    };
+  
+    if (!visible) return null;
+  
+    return (
+      <div
+        onClick={handleClick}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          zIndex: 1000,
+        }}
+      >
+        <img
+          src={src}
+          alt="Preview"
+          style={{
+            maxWidth: "90%",
+            maxHeight: "90%",
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.5)",
+            cursor: "pointer",
+          }}
+        />
+      </div>
+    );
+  };
 
   
 
@@ -88,6 +136,7 @@ const MySpinWheel = ({ code }) => {
 
   const handleSpinFinish = (result: string) => {
     console.log(`Spun to: ${result}`);
+    ImageOverlay(result)
   };
 
   const spinWheelProps: ISpinWheelProps = {
