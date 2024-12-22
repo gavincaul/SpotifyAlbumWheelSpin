@@ -18,7 +18,8 @@ export default async function getAlbums(req, res) {
 
     const clientID = process.env.CLIENT_ID;
     const clientSecret = process.env.CLIENT_SECRET;
-    const redirect_uri = process.env.REDIRECT_URI;
+    const redirect_uri = req.headers.origin.includes("localhost") ? process.env.LOCAL_REDIRECT_URI : process.env.REDIRECT_URI;
+    console.log(redirect_uri)
 
     try {
         const client = await Client.create({
