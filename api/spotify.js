@@ -2,7 +2,6 @@ const spotify = require("spotify-api.js");
 const { Client } = spotify;
 
 export default async function getAlbums(req, res) {
-    console.log("req", req, "\nres", res)
     const allowedOrigins = ['http://localhost:8888', 'https://gavincaul.github.io'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
@@ -20,7 +19,6 @@ export default async function getAlbums(req, res) {
     const clientID = process.env.CLIENT_ID;
     const clientSecret = process.env.CLIENT_SECRET;
     const redirect_uri = origin.includes("localhost") ? process.env.LOCAL_REDIRECT_URI : process.env.REDIRECT_URI;
-    console.log(redirect_uri)
 
     try {
         const client = await Client.create({
