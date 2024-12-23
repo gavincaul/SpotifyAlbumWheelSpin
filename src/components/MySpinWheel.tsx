@@ -10,7 +10,7 @@ const MySpinWheel = ({ code }) => {
   const [error, setError] = useState(null);
   const [overlaySrc, setOverlaySrc] = useState<string | null>(null);
   const [albumCovers, SetAlbumCovers] = useState<{}>({});
-
+  const [noAlbums, setNoAlbums] = useState(false);
   const [size, setSize] = useState(200);
 
   useEffect(() => {
@@ -69,6 +69,11 @@ const MySpinWheel = ({ code }) => {
         
         const result = JSON.parse(text);
         console.log('Parsed albums:', result);
+        if (result.length === 0) {
+          setNoAlbums(true); 
+          setLoading(false);   
+          return;
+        }
         const segments = await Promise.all(result.map(async (album) => {
           albumCovers[album.name] = [album.images[0].url, album.externalURL.spotify, album.name + " - " + album.artists[0].name]
           return {
@@ -138,6 +143,12 @@ const MySpinWheel = ({ code }) => {
   if (error) {
     return <p>Error: {error}</p>;
   }
+
+  if (noAlbums) {
+    return <p>No saved albums</p>;
+  }
+
+
   return (
     <>
       <SpinWheel {...spinWheelProps} />
