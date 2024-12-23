@@ -16,5 +16,5 @@ export default function handler(req, res) {
     }
   
     const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientID}&redirect_uri=${encodeURIComponent(redirectURI)}&scope=${encodeURIComponent(scope)}`;
-    res.redirect(authUrl); 
+    res.status(200).json({ authUrl }); 
   }
