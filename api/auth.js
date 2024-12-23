@@ -1,4 +1,12 @@
 export default function handler(req, res) {
+    const allowedOrigins = ['http://localhost:8888', 'https://gavincaul.github.io'];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); 
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    }
+
     const clientID = process.env.CLIENT_ID;
     const scope = 'user-library-read';
     const redirectURI = req.query.redirect_uri || 'http://localhost:8888'; 
