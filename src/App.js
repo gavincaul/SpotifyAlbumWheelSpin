@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import MySpinWheel from "./components/MySpinWheel.tsx";
-import AuthButton from "./components/AuthButton.tsx"; // Assuming you created the button in a separate component
+import AuthButton from "./components/AuthButton.tsx"; 
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -17,7 +17,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <h1>Spotify Album Wheel Spins</h1>
+      <h1>Spotify Album Wheel Spinner</h1>
       
       {isAuthenticated ? (
         // Show the SpinWheel only after authentication
@@ -30,7 +30,6 @@ export default function App() {
         </div>
       )}
       
-      <h2>Spin the wheel and win exciting offers!</h2>
     </div>
   );
 }
